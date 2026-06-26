@@ -1,23 +1,30 @@
 #include <iostream>
-#include <cmath>
+#include <vector>
 
-// Пример функции для дифференцирования
-double f(double x) {
-    return x * x + 2 * x + 1;
-}
+std::vector<int> factors;
 
-// Функция вычисления производной
-double derivative(double (*func)(double), double x, double h = 1e-5) {
-    return (func(x + h) - func(x)) / h;
+void prime_factors(int n, int divisor = 2) {
+    if (n == 1) return;
+    if (n % divisor == 0) {
+        factors.push_back(divisor);
+        prime_factors(n / divisor, divisor);
+    } else {
+        prime_factors(n, divisor + 1);
+    }
 }
 
 int main() {
-    double x;
-    std::cout << "Введите точку для вычисления производной: ";
-    std::cin >> x;
+    int number;
+    std::cout << "Введите число для разложения: ";
+    std::cin >> number;
     
-    double result = derivative(f, x);
-    std::cout << "Значение производной в точке " << x << " = " << result << std::endl;
+    prime_factors(number);
+    
+    std::cout << "Простые множители: ";
+    for (int factor : factors) {
+        std::cout << factor << " ";
+    }
+    std::cout << std::endl;
     
     return 0;
 }
